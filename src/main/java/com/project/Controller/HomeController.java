@@ -4,8 +4,11 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.runtime.ProcessInstantiationBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/camunda")
@@ -36,5 +39,13 @@ public class HomeController {
         ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey("all_tasks");
         instance.executeWithVariablesInReturn();
         return "Tasks has Executed";
+    }
+
+    @GetMapping("/sequence")
+    public String sequence_flows(){
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey("sequence_flows_execute");
+        instance.executeWithVariablesInReturn();
+        return "Sequence flows has Executed";
     }
 }
