@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_030mccw" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="subject_attributes_dmn" name="Get Subject Attributes">
+    <decisionTable id="DecisionTable_027tp5q" hitPolicy="FIRST">
+      <input id="Input_1" label="Subject Name" camunda:inputVariable="subjectName">
+        <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="javascript">
+          <text>subjectObj.name;</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Subject Display Name" name="subjectDisplayName" typeRef="string" />
+      <output id="OutputClause_1tx5ldi" label="Subject Code" name="subjectCode" typeRef="string" />
+      <output id="OutputClause_0t3c0yj" label="Subject Teacher Id" name="subjectTeacherId" typeRef="integer" />
+      <output id="OutputClause_1hbmqv2" label="Subject Teacher Name" name="subjectTeacherName" typeRef="string" />
+      <rule id="DecisionRule_0ou0tr0">
+        <inputEntry id="UnaryTests_0dd23te">
+          <text>"English"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qd864o">
+          <text>"Eng"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05dhjon">
+          <text>"E01"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_046k8f5">
+          <text>23</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13snba0">
+          <text>"Rakesh"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nc3v97">
+        <inputEntry id="UnaryTests_0sphjbm">
+          <text>"Mathematics"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1swia78">
+          <text>"Maths"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07bn6rq">
+          <text>"M92"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c0fvk4">
+          <text>15</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19yi7rh">
+          <text>"Bharath"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1u6t1qp">
+        <inputEntry id="UnaryTests_1ipk2js">
+          <text>"Science"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0b0acwp">
+          <text>"Sci"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v9yj4h">
+          <text>"SC3"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1og6u08">
+          <text>7</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14vlof4">
+          <text>"Sneha"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10oeejf">
+        <inputEntry id="UnaryTests_1leyndn">
+          <text>"Social Studies"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i08hr0">
+          <text>"SSt"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17106gy">
+          <text>"SS7"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0490hpq">
+          <text>25</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wkscqn">
+          <text>"Nikil"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="subject_attributes_dmn">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -9,43 +9,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/camunda")
 public class HomeController {
 
+    private static final Map<String, String> processKeyMap = new HashMap<>();
+
+    static {
+        processKeyMap.put("home", "first_bpmn_execute");
+        processKeyMap.put("tasks", "all_tasks");
+        processKeyMap.put("sequence", "sequence_flows_execute");
+        processKeyMap.put("gateways", "gateway_execute");
+        processKeyMap.put("subprocess", "subprocess_execute");
+        processKeyMap.put("dmns", "dmns_execute");
+    }
+
     @GetMapping("/home")
-    public String home(){
+    public String home() {
         return "Today is a good day!";
     }
+        @GetMapping("/execute/{key}")
+        public String executeProcess(@PathVariable("key") String key) {
+            String processKey = processKeyMap.get(key);
 
-    @GetMapping("/execute")
-    public String execute(){
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey("first_bpmn_execute");
+            if (processKey == null) {
+                return "Invalid process key: " + key;
+            }
+            ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+            ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey(processKey);
 
-        String item = "Computer";
+            // Optionally set a business key or variables dynamically based on logic
+            instance.businessKey("dynamic-execution");
+            instance.executeWithVariablesInReturn();
 
-        instance.businessKey("execute-endpoint");
-
-        instance.setVariable("itemName", item);
-        instance.executeWithVariablesInReturn();
-        return "BPMN has Executed";
+            return processKey + " has executed.";
+        }
     }
-
-    @GetMapping("/tasks")
-    public String alltasks(){
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey("all_tasks");
-        instance.executeWithVariablesInReturn();
-        return "Tasks has Executed";
-    }
-
-    @GetMapping("/sequence")
-    public String sequence_flows(){
-        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-        ProcessInstantiationBuilder instance = engine.getRuntimeService().createProcessInstanceByKey("sequence_flows_execute");
-        instance.executeWithVariablesInReturn();
-        return "Sequence flows has Executed";
-    }
-}

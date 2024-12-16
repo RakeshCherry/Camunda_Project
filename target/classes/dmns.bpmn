@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1ly2thy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:process id="dmns_execute" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_07069kr</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:scriptTask id="Activity_0w8r8a5" name="User Object" scriptFormat="JavaScript" camunda:resultVariable="userObj">
+      <bpmn:incoming>Flow_07069kr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z0g19h</bpmn:outgoing>
+      <bpmn:script>var obj = {
+    id: 1,
+    name: 'Stefen',
+    age: 25,
+    creditScore: 750
+}
+obj;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_07069kr" sourceRef="StartEvent_1" targetRef="Activity_0w8r8a5" />
+    <bpmn:sequenceFlow id="Flow_0z0g19h" sourceRef="Activity_0w8r8a5" targetRef="Activity_0fzig3p" />
+    <bpmn:businessRuleTask id="Activity_0fzig3p" name="Loan Eligibility" camunda:resultVariable="isEligibleForLoan" camunda:decisionRef="loan_eligibility_dmn" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_0z0g19h</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nsfsgp</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_0nsfsgp" sourceRef="Activity_0fzig3p" targetRef="Activity_0zed7yc" />
+    <bpmn:scriptTask id="Activity_0zed7yc" name="Print output from 1st DMN" scriptFormat="JavaScript">
+      <bpmn:incoming>Flow_0nsfsgp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c5e9t5</bpmn:outgoing>
+      <bpmn:script>print('Output from First DMN :: (Is Eligible For Loan) :: ' + isEligibleForLoan);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0c5e9t5" sourceRef="Activity_0zed7yc" targetRef="Activity_0wpo0w4" />
+    <bpmn:businessRuleTask id="Activity_0wpo0w4" name="Loan Eligibility with Discount" camunda:resultVariable="loanEligibilityWithDiscount" camunda:decisionRef="loan_eligibility_with_discount_dmn">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0c5e9t5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m78u91</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:scriptTask id="Activity_04meph5" name="Print output from 2st DMN" scriptFormat="JavaScript">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1m78u91</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sv12ma</bpmn:outgoing>
+      <bpmn:script>print('Output from 2nd DMN :: (Is Eligible For Loan With Discount) :: ' + loanEligibilityWithDiscount);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1m78u91" sourceRef="Activity_0wpo0w4" targetRef="Activity_04meph5" />
+    <bpmn:sequenceFlow id="Flow_1sv12ma" sourceRef="Activity_04meph5" targetRef="Activity_0ag1faj" />
+    <bpmn:scriptTask id="Activity_0ag1faj" name="Initialize Subject" scriptFormat="JavaScript" camunda:resultVariable="subjectObj">
+      <bpmn:incoming>Flow_1sv12ma</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k1ubln</bpmn:outgoing>
+      <bpmn:script>var obj = {
+    id: 2,
+    name: null,
+    displayName: null,
+    subjectTeacherId: null,
+    subjectTeacherName: null
+}
+
+obj;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0k1ubln" sourceRef="Activity_0ag1faj" targetRef="Activity_05r3mdb" />
+    <bpmn:businessRuleTask id="Activity_05r3mdb" name="Get Subject Name" camunda:resultVariable="subjectName" camunda:decisionRef="subject_id_name_dmn" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="temp">
+            <camunda:script scriptFormat="JavaScript">subjectObj.name = subjectName;
+
+print('SubjectObj Name after assigning name :: ' + JSON.stringify(subjectObj));</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0k1ubln</bpmn:incoming>
+      <bpmn:outgoing>Flow_1e0rpyg</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_1e0rpyg" sourceRef="Activity_05r3mdb" targetRef="Activity_02w4yl6" />
+    <bpmn:businessRuleTask id="Activity_02w4yl6" name="Errors for Subject Name and Code" camunda:resultVariable="subjectInfoError" camunda:decisionRef="subject_code_name_error_dmn" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="temp">
+            <camunda:script scriptFormat="JavaScript">print('subjectInfoError :: ' + subjectInfoError)</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1e0rpyg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ici5qx</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_0ici5qx" sourceRef="Activity_02w4yl6" targetRef="Activity_07zqn8u" />
+    <bpmn:endEvent id="Event_1fjlwpw">
+      <bpmn:incoming>Flow_1j3fwdp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1j3fwdp" sourceRef="Activity_07zqn8u" targetRef="Event_1fjlwpw" />
+    <bpmn:businessRuleTask id="Activity_07zqn8u" name="Get Subject Attribute" camunda:resultVariable="subjectAttributesObj" camunda:decisionRef="subject_attributes_dmn" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="temp">
+            <camunda:script scriptFormat="JavaScript">print('subjectAttributesObj :: ' + subjectAttributesObj); if(subjectAttributesObj){
+    subjectObj.displayName = subjectAttributesObj.get('subjectDisplayName');
+    subjectObj.code = subjectAttributesObj.get('subjectCode');
+    subjectObj.subjectTeacherId = subjectAttributesObj.get('subjectTeacherId');
+    subjectObj.subjectTeacherName = subjectAttributesObj.get('subjectTeacherName');
+}
+
+print('subjectObj after assigning Attributes :: ' + JSON.stringify(subjectObj));</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ici5qx</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j3fwdp</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="dmns_execute">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_100pplv_di" bpmnElement="Activity_0w8r8a5">
+        <dc:Bounds x="290" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tks776_di" bpmnElement="Activity_0fzig3p">
+        <dc:Bounds x="470" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1stf1ci_di" bpmnElement="Activity_0zed7yc">
+        <dc:Bounds x="650" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1orry5r_di" bpmnElement="Activity_0wpo0w4">
+        <dc:Bounds x="820" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1b55sbm" bpmnElement="Activity_04meph5">
+        <dc:Bounds x="1000" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d8ucnv_di" bpmnElement="Activity_0ag1faj">
+        <dc:Bounds x="1170" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_040oirq_di" bpmnElement="Activity_05r3mdb">
+        <dc:Bounds x="1330" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ry7da4_di" bpmnElement="Activity_02w4yl6">
+        <dc:Bounds x="1500" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fjlwpw_di" bpmnElement="Event_1fjlwpw">
+        <dc:Bounds x="1842" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03jrez0_di" bpmnElement="Activity_07zqn8u">
+        <dc:Bounds x="1670" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_07069kr_di" bpmnElement="Flow_07069kr">
+        <di:waypoint x="218" y="100" />
+        <di:waypoint x="290" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z0g19h_di" bpmnElement="Flow_0z0g19h">
+        <di:waypoint x="390" y="100" />
+        <di:waypoint x="470" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nsfsgp_di" bpmnElement="Flow_0nsfsgp">
+        <di:waypoint x="570" y="100" />
+        <di:waypoint x="650" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c5e9t5_di" bpmnElement="Flow_0c5e9t5">
+        <di:waypoint x="750" y="100" />
+        <di:waypoint x="820" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m78u91_di" bpmnElement="Flow_1m78u91">
+        <di:waypoint x="920" y="100" />
+        <di:waypoint x="1000" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sv12ma_di" bpmnElement="Flow_1sv12ma">
+        <di:waypoint x="1100" y="100" />
+        <di:waypoint x="1170" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k1ubln_di" bpmnElement="Flow_0k1ubln">
+        <di:waypoint x="1270" y="100" />
+        <di:waypoint x="1330" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e0rpyg_di" bpmnElement="Flow_1e0rpyg">
+        <di:waypoint x="1430" y="100" />
+        <di:waypoint x="1500" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ici5qx_di" bpmnElement="Flow_0ici5qx">
+        <di:waypoint x="1600" y="100" />
+        <di:waypoint x="1670" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j3fwdp_di" bpmnElement="Flow_1j3fwdp">
+        <di:waypoint x="1770" y="100" />
+        <di:waypoint x="1842" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

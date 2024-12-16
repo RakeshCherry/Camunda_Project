@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1di474z" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="subject_code_name_error_dmn" name="Check for code and Name">
+    <decisionTable id="DecisionTable_1wpfz2w" hitPolicy="ANY">
+      <input id="Input_1" label="Subject Name" camunda:inputVariable="subjectName">
+        <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="javascript">
+          <text>subjectObj.name;</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0p8dafz" label="Subject Code" camunda:inputVariable="subjectCode">
+        <inputExpression id="LiteralExpression_0gv9vf4" typeRef="string" expressionLanguage="javascript">
+          <text>subjectObj.code;</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Error" name="error" typeRef="string" />
+      <rule id="DecisionRule_1que0sd">
+        <inputEntry id="UnaryTests_03i4tvb" expressionLanguage="javascript">
+          <text>subjectName == '' || subjectName == null;</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wddm3z" expressionLanguage="javascript">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wyalqt">
+          <text>"Subject info is missing"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ledipu">
+        <inputEntry id="UnaryTests_0kx5ngm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07pryxh" expressionLanguage="javascript">
+          <text>subjectCode == '' || subjectCode == null;</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0cdkocs">
+          <text>"Subject info is missing"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="subject_code_name_error_dmn">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
