@@ -25,6 +25,7 @@ public class HomeController {
         processKeyMap.put("gateways", "gateway_execute");
         processKeyMap.put("subprocess", "subprocess_execute");
         processKeyMap.put("dmns", "dmns_execute");
+        processKeyMap.put("multi_instance", "multi_instance_execute");
     }
 
     @GetMapping("/home")

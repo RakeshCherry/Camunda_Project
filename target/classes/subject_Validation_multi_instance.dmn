@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0cs8l6l" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="subject_validation_multi_instance_dmn" name="Subject Validation ">
+    <decisionTable id="DecisionTable_1ki2wp7" hitPolicy="RULE ORDER">
+      <input id="Input_1" label="Check for Empty Value" biodi:width="428" camunda:inputVariable="notRequied">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>"notRequied"</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Error Message" name="errorMessage" typeRef="string" />
+      <output id="OutputClause_0484aog" label="Field" name="field" typeRef="string" biodi:width="281" />
+      <output id="OutputClause_0yfwzbe" label="Subject Id" name="subjectId" typeRef="string" />
+      <rule id="DecisionRule_06wk2yl">
+        <inputEntry id="UnaryTests_0j2szi8" expressionLanguage="javascript">
+          <text>subjectObj.prop('displayName').value() === '' || subjectObj.prop('displayName').value() === null;</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08b7lug">
+          <text>"Display Name is missing"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03s1nkg">
+          <text>"displayName"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1us1bap" expressionLanguage="javascript">
+          <text>subjectObj.prop('id').value()</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cj68so">
+        <inputEntry id="UnaryTests_0guez5r" expressionLanguage="javascript">
+          <text>subjectObj.prop('code').value() === '' || subjectObj.prop('code').value() === null;</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h9dfur">
+          <text>"Subject Code is Blank"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ogf59x">
+          <text>"code"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k3b0b7" expressionLanguage="javascript">
+          <text>subjectObj.prop('id').value()</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xozaq2">
+        <inputEntry id="UnaryTests_0683t1d" expressionLanguage="javascript">
+          <text>subjectObj.prop('subjectTeacherId').value() === '' || subjectObj.prop('subjectTeacherId').value() === null;</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16kh8cd">
+          <text>"Subject Teacher Id is Missing"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14xw45q">
+          <text>"subjectTeacherId"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u3k5vb" expressionLanguage="javascript">
+          <text>subjectObj.prop('id').value()</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0t0lckr">
+        <inputEntry id="UnaryTests_1qwqzc7" expressionLanguage="javascript">
+          <text>subjectObj.prop('subjectTeacherName').value() === '' || subjectObj.prop('subjectTeacherName').value()  === null;</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03pe41x">
+          <text>"Subject Teacher Name is Missing"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wck4hf">
+          <text>"subjectTeacherName"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15hgau2" expressionLanguage="javascript">
+          <text>subjectObj.prop('id').value()</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="subject_validation_multi_instance_dmn">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
