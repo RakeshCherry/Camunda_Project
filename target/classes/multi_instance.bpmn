@@ -186,7 +186,7 @@ obj.field = errorMap.get('field');
 obj.subjectId = errorMap.get('subjectId');
 
 errors.push(obj); 
-}  </camunda:script>
+}   </camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
         </bpmn:extensionElements>
